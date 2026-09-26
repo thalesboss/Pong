@@ -2,114 +2,35 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Jogo Pong em HTML5</title>
-    <style>
-        body {
-            background-color: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        canvas {
-            border: 2px solid white;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Pong</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<canvas id="pong" width="800" height="400"></canvas>
+    <div class="pong">
 
-<script>
-    const canvas = document.getElementById("pong");
-    const ctx = canvas.getContext("2d");
+        <!-- Placar -->
+        <div class="placar">
+            <span>0</span>
+            <span>0</span>
+        </div>
 
-    // Configuração da bola
-    let ball = {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        radius: 10,
-        speed: 4,
-        velocityX: 4,
-        velocityY: 4
-    };
+        <!-- Linha central -->
+        <div class="linha-central"></div>
 
-    // Raquete do jogador
-    let player = {
-        x: 10,
-        y: canvas.height / 2 - 40,
-        width: 10,
-        height: 80,
-        score: 0
-    };
+        <!-- Raquete do Jogador 1 -->
+        <div class="jogador1"></div>
 
-    // Raquete do oponente
-    let ai = {
-        x: canvas.width - 20,
-        y: canvas.height / 2 - 40,
-        width: 10,
-        height: 80,
-        score: 0
-    };
+        <!-- Raquete do Jogador 2 -->
+        <div class="jogador2"></div>
 
-    function drawRect(x, y, w, h, color) {
-        ctx.fillStyle = color;
-        ctx.fillRect(x, y, w, h);
-    }
+        <!-- Bola -->
+        <div class="bola"></div>
 
-    function drawCircle(x, y, r, color) {
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.fill();
-    }
-
-    function render() {
-        // Limpa a tela
-        drawRect(0, 0, canvas.width, canvas.height, "#111");
-        // Desenha as raquetes e a bola
-        drawRect(player.x, player.y, player.width, player.height, "WHITE");
-        drawRect(ai.x, ai.y, ai.width, ai.height, "WHITE");
-        drawCircle(ball.x, ball.y, ball.radius, "WHITE");
-    }
-
-    function update() {
-        ball.x += ball.velocityX;
-        ball.y += ball.velocityY;
-
-        // Simples IA para mover a segunda raquete
-        ai.y += (ball.y - (ai.y + ai.height / 2)) * 0.08;
-
-        // Rebater nas paredes superior e inferior
-        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-            ball.velocityY = -ball.velocityY;
-        }
-
-        // Colisão com as raquetes
-        let activePaddle = (ball.x < canvas.width / 2) ? player : ai;
-        if (ball.x - ball.radius < activePaddle.x + activePaddle.width &&
-            ball.x + ball.radius > activePaddle.x &&
-            ball.y > activePaddle.y && ball.y < activePaddle.y + activePaddle.height) {
-            ball.velocityX = -ball.velocityX;
-        }
-    }
-
-    function gameLoop() {
-        update();
-        render();
-    }
-
-    // Controle da raquete com o mouse
-    canvas.addEventListener("mousemove", function(evt) {
-        let rect = canvas.getBoundingClientRect();
-        player.y = evt.clientY - rect.top - player.height / 2;
-    });
-
-    // Atualiza o jogo 60 vezes por segundo
-    setInterval(gameLoop, 1000 / 60);
-</script>
+    </div>
 
 </body>
 </html>
