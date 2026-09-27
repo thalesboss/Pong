@@ -52,7 +52,7 @@ body {
     width: 10px;
     height: 80px;
 
-    background-color: white;
+    background-color: green;
 }
 
 /* Raquete do Jogador 2 */
@@ -65,7 +65,7 @@ body {
     width: 10px;
     height: 80px;
 
-    background-color: white;
+    background-color: blue;
 }
 
 /* Bola */
@@ -94,7 +94,7 @@ body {
 
     transform: translateX(-50%);
 
-    color: white;
+    color: red;
 
     font-family: Arial, sans-serif;
     font-size: 40px;
