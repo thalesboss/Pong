@@ -20,7 +20,7 @@ body {
 
     border: 2px solid white;
 
-    background-color: #111;
+    background-color: #2d7740;
 
     position: relative;
 }
@@ -78,7 +78,8 @@ body {
     width: 20px;
     height: 20px;
 
-    background-color: white;
+    background-color: black;
+    border: 2px solid white;
 
     border-radius: 50%;
 
@@ -101,5 +102,5 @@ body {
 }
 
 .placar span {
-    margin: 0 30px;
+    margin: 10 10px;
 }
