@@ -10,24 +10,100 @@
 </head>
 
 <body>
-    <div class="placar">
-          <span>0</span> x <span>0</span>
+    <!-- Menu Principal -->
+    <div class="tela-inicial" id="tela-inicial">
+        <div class="menu">
+            <h1>PONG</h1>
+            <p>Prepare-se para jogar!</p>
+
+            <form id="form-nomes">
+                <label for="inputJ1">Nome do Jogador 1</label>
+                <input
+                    type="text"
+                    id="inputJ1"
+                    placeholder="Jogador 1"
+                    maxlength="15"
+                    required
+                >
+                <input type="color" id="corJ1" value="008000" title="Escolha sua cor">
+
+
+                <label for="inputJ2">Nome do Jogador 2</label>
+                <input
+                    type="text"
+                    id="inputJ2"
+                    placeholder="Jogador 2"
+                    maxlength="15"
+                    required
+                >
+                <input type="color" id="corJ2" value="#0000ff" title="Escolha sua cor">
+
+                <button type="submit">INICIAR JOGO</button>
+            </form>
+        </div>
     </div>
 
-    <div class="pong">
+    <!-- Tela de Fim de Jogo e Ranking (Usa o mesmo estilo da .tela-inicial e .menu) -->
+    <div class="tela-inicial oculto" id="tela-final">
+        <div class="menu menu-ranking">
+            <h1 id="texto-vencedor">VENCEDOR!</h1>
+            <p class="tempo-destaque">Tempo: <strong id="tempo-final">0.00</strong>s</p>
 
+            <h3>🏆 Menores Tempos (5 Pontos)</h3>
+            <div class="tabela-wrapper">
+                <table class="tabela-ranking">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Vencedor</th>
+                            <th>Contra</th>
+                            <th>Tempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-ranking">
+                        <tr><td colspan="4">Carregando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Linha central -->
-        <div class="linha-central"></div>
+            <div class="botoes-final">
+                <button type="button" id="btn-jogar-novamente">JOGAR NOVAMENTE</button>
+                <button type="button" id="btn-trocar-nomes" class="btn-secundario">TROCAR JOGADORES</button>
+            </div>
+        </div>
+    </div>
 
-        <!-- Raquete do Jogador 1 -->
-        <div class="jogador1"></div>
+    <!-- Jogo -->
+    <div class="jogo">
 
-        <!-- Raquete do Jogador 2 -->
-        <div class="jogador2"></div>
+        <!-- Nomes, cronômetro e placar -->
+        <div class="cabecalho-jogo">
 
-        <!-- Bola -->
-        <div class="bola"></div>
+            <div class="nomes-jogadores">
+                <span class="nome-j1">JOGADOR 1</span>
+                <span class="cronometro">⏱️ <span id="tempo-atual">0.00</span>s</span>
+                <span class="nome-j2">JOGADOR 2</span>
+            </div>
+
+            <div class="placar">
+                <span>0</span> x <span>0</span>
+            </div>
+
+        </div>
+
+        <div class="pong">
+            <!-- Linha central -->
+            <div class="linha-central"></div>
+
+            <!-- Raquete do Jogador 1 -->
+            <div class="jogador1"></div>
+
+            <!-- Raquete do Jogador 2 -->
+            <div class="jogador2"></div>
+
+            <!-- Bola -->
+            <div class="bola"></div>
+        </div>
 
     </div>
 
