@@ -1,23 +1,43 @@
+<!-- 1. Avisa o navegador que este arquivo usa a versão mais atual do HTML (HTML5) -->
 <!DOCTYPE html>
+
+<!-- 2. Começa o código da página e diz que o idioma principal é Português do Brasil -->
 <html lang="pt-BR">
+
+<!-- 3. O <head> é a "cabeça" do site: guarda configurações invisíveis para o usuário -->
 <head>
+    <!-- 4. Permite usar acentos (ç, ã, é) e emojis (⏱️, 🏆) sem aparecerem símbolos estranhos -->
     <meta charset="UTF-8">
+
+    <!-- 5. Faz a página se ajustar corretamente ao tamanho da tela do computador ou celular -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 6. Nome que aparece escrito lá em cima, na aba do navegador -->
     <title>Jogo Pong</title>
 
+    <!-- 7. Puxa o arquivo de design (CSS) para deixar o jogo colorido e posicionado -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- 8. Puxa o arquivo de lógica (JavaScript). O "defer" manda esperar o HTML carregar inteiro antes de rodar o JS -->
     <script src="script.js" defer></script>
 </head>
 
+<!-- 9. O <body> é o "corpo" do site: tudo o que realmente aparece na tela para o jogador -->
 <body>
-    <!-- Menu Principal -->
+
+    <!-- ==================== BLOCO 1: TELA INICIAL (MENU) ==================== -->
+    <!-- 10. Caixa que cobre a tela inteira no começo. Tem "class" para o CSS estilizar e "id" para o JS controlar -->
     <div class="tela-inicial" id="tela-inicial">
+        <!-- 11. Caixinha central onde ficam os campos de digitar -->
         <div class="menu">
             <h1>PONG</h1>
             <p>Prepare-se para jogar!</p>
 
+            <!-- 12. Formulário que agrupa os dados dos jogadores antes de começar -->
             <form id="form-nomes">
+                <!-- 13. Etiqueta de texto ligada ao campo de baixo pelo atributo "for" -->
                 <label for="inputJ1">Nome do Jogador 1</label>
+                <!-- 14. Caixa de texto: "required" impede começar vazio e "maxlength" limita a 15 letras -->
                 <input
                     type="text"
                     id="inputJ1"
@@ -25,9 +45,10 @@
                     maxlength="15"
                     required
                 >
-                <input type="color" id="corJ1" value="008000" title="Escolha sua cor">
+                <!-- 15. Seletor de cor para a raquete 1 (coloquei o # antes do 008000 que é o padrão correto) -->
+                <input type="color" id="corJ1" value="#008000" title="Escolha sua cor">
 
-
+                <!-- 16. Mesma estrutura para o Jogador 2 -->
                 <label for="inputJ2">Nome do Jogador 2</label>
                 <input
                     type="text"
@@ -36,22 +57,30 @@
                     maxlength="15"
                     required
                 >
+                <!-- 17. Seletor de cor para a raquete 2 (começa em azul: #0000ff) -->
                 <input type="color" id="corJ2" value="#0000ff" title="Escolha sua cor">
 
+                <!-- 18. Botão de envio: ao clicar (ou apertar Enter), avisa o JavaScript para iniciar a partida -->
                 <button type="submit">INICIAR JOGO</button>
             </form>
         </div>
     </div>
 
-    <!-- Tela de Fim de Jogo e Ranking (Usa o mesmo estilo da .tela-inicial e .menu) -->
+    <!-- ==================== BLOCO 2: TELA FINAL E RANKING ==================== -->
+    <!-- 19. Tela de fim de jogo. Começa invisível por causa da classe "oculto" e só aparece quando alguém faz 5 pontos -->
     <div class="tela-inicial oculto" id="tela-final">
         <div class="menu menu-ranking">
+            <!-- 20. O JavaScript troca esse texto para o nome de quem ganhou -->
             <h1 id="texto-vencedor">VENCEDOR!</h1>
+            <!-- 21. Mostra o tempo final; o <strong> guarda o número exato atualizado pelo JS -->
             <p class="tempo-destaque">Tempo: <strong id="tempo-final">0.00</strong>s</p>
 
             <h3>🏆 Menores Tempos (5 Pontos)</h3>
+            <!-- 22. Caixa que cria barra de rolagem se a tabela tiver muitos recordes -->
             <div class="tabela-wrapper">
+                <!-- 23. Tabela que mostra os 10 melhores tempos salvos no servidor -->
                 <table class="tabela-ranking">
+                    <!-- 24. Cabeçalho fixo com os títulos das 4 colunas -->
                     <thead>
                         <tr>
                             <th>Pos</th>
@@ -60,12 +89,15 @@
                             <th>Tempo</th>
                         </tr>
                     </thead>
+                    <!-- 25. Corpo da tabela: o JS apaga o "Carregando..." e preenche com os dados que vêm do PHP -->
                     <tbody id="corpo-ranking">
+                        <!-- 26. "colspan='4'" junta as 4 colunas em uma linha só enquanto carrega -->
                         <tr><td colspan="4">Carregando...</td></tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- 27. Botões do fim de jogo: "type='button'" garante que são apenas botões de clique comum -->
             <div class="botoes-final">
                 <button type="button" id="btn-jogar-novamente">JOGAR NOVAMENTE</button>
                 <button type="button" id="btn-trocar-nomes" class="btn-secundario">TROCAR JOGADORES</button>
@@ -73,35 +105,39 @@
         </div>
     </div>
 
-    <!-- Jogo -->
+    <!-- ==================== BLOCO 3: O JOGO EM SI ==================== -->
+    <!-- 28. Área principal da partida (fica por baixo das telas de menu) -->
     <div class="jogo">
 
-        <!-- Nomes, cronômetro e placar -->
+        <!-- 29. Parte de cima da quadra com nomes, relógio e placar -->
         <div class="cabecalho-jogo">
 
+            <!-- 30. Linha com o nome do J1 na esquerda, cronômetro no meio e nome do J2 na direita -->
             <div class="nomes-jogadores">
                 <span class="nome-j1">JOGADOR 1</span>
                 <span class="cronometro">⏱️ <span id="tempo-atual">0.00</span>s</span>
                 <span class="nome-j2">JOGADOR 2</span>
             </div>
 
+            <!-- 31. Placar numérico: cada <span> guarda os pontos de um jogador -->
             <div class="placar">
                 <span>0</span> x <span>0</span>
             </div>
 
         </div>
 
+        <!-- 32. A quadra verde onde o jogo acontece -->
         <div class="pong">
-            <!-- Linha central -->
+            <!-- 33. Risco branco que divide o meio da quadra -->
             <div class="linha-central"></div>
 
-            <!-- Raquete do Jogador 1 -->
+            <!-- 34. Raquete da esquerda -->
             <div class="jogador1"></div>
 
-            <!-- Raquete do Jogador 2 -->
+            <!-- 35. Raquete da direita -->
             <div class="jogador2"></div>
 
-            <!-- Bola -->
+            <!-- 36. A bolinha -->
             <div class="bola"></div>
         </div>
 

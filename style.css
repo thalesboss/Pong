@@ -1,77 +1,87 @@
+/* 1. O asterisco (*) seleciona TODOS os elementos do site.
+      "box-sizing: border-box" faz a borda e o preenchimento interno (padding) serem contados DENTRO
+      da largura e altura que definimos. Assim, uma caixa de 800px nunca passa de 800px por causa da borda */
 * {
     box-sizing: border-box;
 }
 
+/* 2. Estilo do corpo inteiro da página */
 body {
-    background-color: #111;
+    background-color: #111; /* Fundo quase preto para dar contraste com a quadra */
 
+    /* Flexbox: modo moderno de alinhamento */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Centraliza o jogo na horizontal (esquerda/direita) */
+    align-items: center;     /* Centraliza o jogo na vertical (cima/baixo) */
 
-    height: 100vh;
-    margin: 0;
+    height: 100vh; /* Faz o corpo ocupar 100% da altura da janela do navegador (Viewport Height) */
+    margin: 0;     /* Tira aquela margem branca padrão do navegador para não criar barra de rolagem */
 }
 
-/* Área do jogo */
+/* ==================== ÁREA DO JOGO (QUADRA) ==================== */
+/* 3. A caixa verde onde a bola e as raquetes se mexem */
 .pong {
+    /* Medidas exatas em pixels que o JavaScript também usa na matemática de colisão */
     width: 800px;
     height: 400px;
 
     border: 2px solid white;
+    background-color: #2d7740; /* Verde mesa de ping-pong */
 
-    background-color: #2d7740;
-
+    /* MUITO IMPORTANTE: "position: relative" transforma esta caixa na "âncora" (ponto 0,0)
+       para tudo que estiver dentro dela com "position: absolute" (raquetes, bola e linha) */
     position: relative;
 }
 
-/* Linha central */
+/* 4. A linha branca que divide o meio da quadra */
 .linha-central {
-    position: absolute;
+    position: absolute; /* Permite posicionar em qualquer coordenada dentro da caixa .pong */
 
     top: 0;
-    left: 50%;
+    left: 50%; /* Encosta a linha na metade da quadra (400px) */
 
     width: 2px;
     height: 100%;
 
     background-color: white;
 
+    /* Empurra a linha 1px para a esquerda (metade da largura dela) para ficar perfeitamente no centro */
     transform: translateX(-50%);
 
-    opacity: 0.5;
+    opacity: 0.5; /* Deixa meio transparente (50%) para não ofuscar a bola */
 }
 
-/* Raquete do Jogador 1 */
+/* 5. Raquete do Jogador 1 (Esquerda) */
 .jogador1 {
     position: absolute;
 
-    left: 10px;
-    top: 160px;
+    left: 10px;  /* Fica sempre a 10px da parede esquerda (como tem 10px de largura, a frente dela fica em 20px) */
+    top: 160px;  /* Começa no meio exato da altura: (400px da quadra - 80px da raquete) / 2 = 160px */
 
     width: 10px;
     height: 80px;
 
-    background-color: green;
+    background-color: green; /* Cor inicial (o JavaScript troca depois pela cor que o jogador escolher) */
 }
 
-/* Raquete do Jogador 2 */
+/* 6. Raquete do Jogador 2 (Direita) */
 .jogador2 {
     position: absolute;
 
-    right: 10px;
-    top: 160px;
+    right: 10px; /* Fica sempre a 10px da parede direita */
+    top: 160px;  /* Também começa centralizada na altura (160px) */
 
     width: 10px;
     height: 80px;
 
-    background-color: blue;
+    background-color: blue; /* Cor inicial (também trocada pelo JavaScript) */
 }
 
-/* Bola */
+/* 7. A bolinha */
 .bola {
     position: absolute;
 
+    /* Posição inicial antes do JavaScript assumir o movimento */
     left: 50%;
     top: 50%;
 
@@ -81,12 +91,13 @@ body {
     background-color: black;
     border: 2px solid white;
 
-    border-radius: 50%;
+    border-radius: 50%; /* Arredonda os 4 cantos em 50%, transformando um quadrado de 20x20 num círculo */
 
+    /* Puxa a bola metade do tamanho dela para cima e para a esquerda para o centro dela bater no 50% */
     transform: translate(-50%, -50%);
 }
 
-/* Placar integrado no cabecalho-jogo */
+/* 8. Números do placar lá em cima */
 .placar {
     color: white;
     font-family: Arial, sans-serif;
@@ -95,44 +106,48 @@ body {
 }
 
 .placar span {
-    margin: 0 10px;
+    margin: 0 10px; /* Dá um espaço de 10px nos lados de cada número para não colar no "x" */
 }
 
 /* ================================= */
 /* MENU INICIAL E FINAL DO PONG      */
 /* ================================= */
 
+/* 9. Fundo escuro que cobre a tela inteira por cima do jogo no começo e no fim */
 .tela-inicial {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.90);
+    position: fixed; /* Fica travado na janela do navegador */
+    inset: 0;        /* Atalho para top: 0, right: 0, bottom: 0, left: 0 (estica nos 4 cantos da tela) */
+    background-color: rgba(0, 0, 0, 0.90); /* Preto com 90% de opacidade (deixa ver um pouco da quadra no fundo) */
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    z-index: 100;
+    z-index: 100; /* Camada 100: garante que o menu fique NA FRENTE da quadra do jogo */
 }
 
+/* 10. Classe que o JavaScript coloca e tira para esconder ou mostrar os menus */
 .oculto {
-    display: none !important;
+    display: none !important; /* "!important" obriga a esconder, vencendo o "display: flex" da classe acima */
 }
 
+/* 11. A caixinha cinza central do menu */
 .menu {
     width: 350px;
-    padding: 35px;
+    padding: 35px; /* Espaçamento interno para o conteúdo não encostar na borda */
 
     background-color: #222;
     border: 2px solid white;
-    border-radius: 12px;
+    border-radius: 12px; /* Cantos arredondados */
 
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
 
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); /* Sombra atrás da caixa */
 }
 
+/* 12. Deixa a caixa do menu final um pouco mais larga (480px) para caber a tabela de ranking com folga */
 .menu-ranking {
     width: 480px;
 }
@@ -148,11 +163,12 @@ body {
     margin-bottom: 20px;
 }
 
+/* 13. Organiza os textos, caixinhas e botão do formulário um embaixo do outro */
 .menu form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Empilha em coluna (vertical) */
     text-align: left;
-    gap: 10px;
+    gap: 10px; /* Cria um espaço automático de 10px entre cada item do formulário */
 }
 
 .menu label {
@@ -161,6 +177,7 @@ body {
     font-weight: bold;
 }
 
+/* 14. Estilo das caixas onde digita o nome */
 .menu input {
     width: 100%;
     padding: 12px;
@@ -170,30 +187,34 @@ body {
 
     background-color: #eee;
     font-size: 15px;
-    outline: none;
+    outline: none; /* Tira aquela borda azul padrão do navegador quando clica */
 }
 
+/* 15. Muda a cor da borda para verde quando o usuário clica dentro da caixa para digitar */
 .menu input:focus {
     border: 1px solid #4caf50;
 }
 
+/* 16. Classe auxiliar para alinhar itens lado a lado se necessário */
 .linha-jogador {
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
+/* 17. Estilo específico para o quadradinho de escolher cor (<input type="color">) */
 .menu input[type="color"] {
     width: 50px;
     height: 44px;
     padding: 2px;
-    cursor: pointer;
+    cursor: pointer; /* Muda a setinha do mouse para a "mãozinha" */
     background-color: #333;
     border: 1px solid #555;
     border-radius: 5px;
     flex-shrink: 0;
 }
 
+/* 18. Botão verde principal */
 .menu button {
     margin-top: 15px;
     padding: 14px;
@@ -209,13 +230,15 @@ body {
     font-weight: bold;
 
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s; /* Faz a troca de cor durar 0.2 segundos (efeito suave) */
 }
 
+/* 19. Efeito quando passa o mouse por cima do botão (:hover) */
 .menu button:hover {
-    background-color: #35bd59;
+    background-color: #35bd59; /* Fica um verde mais claro */
 }
 
+/* 20. Estilo do botão cinza "TROCAR JOGADORES" */
 .menu .btn-secundario {
     background-color: #555;
     margin-top: 8px;
@@ -229,6 +252,7 @@ body {
 /* ORGANIZAÇÃO DOS JOGADORES E TEMPO */
 /* ================================= */
 
+/* 21. Caixa geral do jogo: empilha o cabeçalho em cima e a quadra embaixo */
 .jogo {
     display: flex;
     flex-direction: column;
@@ -236,6 +260,7 @@ body {
     gap: 12px;
 }
 
+/* 22. Cabeçalho tem a mesma largura da quadra (800px) para ficar alinhado com as bordas dela */
 .cabecalho-jogo {
     width: 800px;
     display: flex;
@@ -244,11 +269,12 @@ body {
     gap: 5px;
 }
 
+/* 23. Linha com Nome 1 na esquerda, Cronômetro no meio e Nome 2 na direita */
 .nomes-jogadores {
     width: 100%;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Joga o 1º item para a esquerda, o 2º no meio e o 3º para a direita */
     align-items: center;
 
     padding: 0 10px;
@@ -267,7 +293,7 @@ body {
 }
 
 .cronometro {
-    color: #f1c40f;
+    color: #f1c40f; /* Amarelo ouro para destacar o relógio */
     font-size: 20px;
 }
 
@@ -280,9 +306,10 @@ body {
     color: #f1c40f !important;
 }
 
+/* 24. Caixa que envolve a tabela: se tiver muitos recordes, cria uma barra de rolagem interna */
 .tabela-wrapper {
     max-height: 200px;
-    overflow-y: auto;
+    overflow-y: auto; /* Mostra barra de rolagem vertical se passar de 200px de altura */
     border: 1px solid #444;
     border-radius: 6px;
     margin-bottom: 10px;
@@ -290,7 +317,7 @@ body {
 
 .tabela-ranking {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse; /* Junta as linhas das células para não ficar borda dupla */
     font-size: 14px;
 }
 
@@ -301,17 +328,20 @@ body {
     text-align: center;
 }
 
+/* 25. Cabeçalho verde da tabela */
 .tabela-ranking th {
     background-color: #269b45;
     color: white;
-    position: sticky;
+    position: sticky; /* Cola o cabeçalho no topo da caixinha quando você rola a tabela para baixo */
     top: 0;
 }
 
+/* 26. Efeito zebra: pinta as linhas pares (2ª, 4ª, 6ª...) de um cinza um pouco mais claro */
 .tabela-ranking tr:nth-child(even) {
     background-color: #2c2c2c;
 }
 
+/* 27. Pinta a 1ª linha de resultados (o recordista / 1º lugar) de dourado e negrito */
 .tabela-ranking tr:first-child td {
     color: #f1c40f;
     font-weight: bold;
